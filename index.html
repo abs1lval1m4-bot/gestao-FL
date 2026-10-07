@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gestão de Frota</title>
+
+    <style>
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: #f1f4f7;
+            color: #222;
+            min-height: 100vh;
+        }
+
+
+
+        header {
+            background-color: #1d4e89;
+            color: white;
+            padding: 25px 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 6px;
+        }
+
+        header p {
+            color: #dceafa;
+        }
+
+
+
+        main {
+            width: 90%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+
+
+        .formulario {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 35px;
+        }
+
+        .formulario h2 {
+            color: #1d4e89;
+            margin-bottom: 25px;
+        }
+
+        .campo {
+            margin-bottom: 18px;
+        }
+
+        .campo label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        .campo input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd3db;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        .campo input:focus {
+            outline: none;
+            border-color: #1d4e89;
+        }
+
+
+
+        .botao {
+            background-color: #1d4e89;
+            color: white;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 7px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .botao:hover {
+            background-color: #163d6b;
+        }
+
+
+
+        .titulo-frota {
+            color: #1d4e89;
+            margin-bottom: 20px;
+        }
+
+
+
+        #listaCaminhoes {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(280px, 1fr)
+            );
+
+            gap: 20px;
+        }
+
+
+
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+
+            border-left: 5px solid #1d4e89;
+        }
+
+        .card h3 {
+            color: #1d4e89;
+            margin-bottom: 18px;
+        }
+
+        .card p {
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .card strong {
+            color: #222;
+        }
+
+
+
+        .status {
+            margin-top: 18px;
+            padding: 12px;
+            border-radius: 7px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .urgente {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
+        }
+
+        .em-dia {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+        }
+
+
+
+        .aviso {
+            color: #777;
+            text-align: center;
+            padding: 20px;
+        }
+
+
+
+        footer {
+            margin-top: 50px;
+            background-color: #17324d;
+            color: #dbe5ef;
+            text-align: center;
+            padding: 18px;
+            font-size: 13px;
+        }
+
+
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 20px;
+            }
+
+            main {
+                width: 92%;
+            }
+
+            .formulario {
+                padding: 20px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+
+    <header>
+
+        <h1>🚛 Gestão de Frota</h1>
+
+        <p>
+            Sistema de Monitoramento de Quilometragem
+        </p>
+
+    </header>
+
+
+
+    <main>
+
+
+        <section class="formulario">
+
+            <h2>🚚 Cadastrar Caminhão</h2>
+
+
+            <form id="formFrota">
+
+
+                <div class="campo">
+
+                    <label for="caminhao">
+                        Identificação do Caminhão
+                    </label>
+
+                    <input
+                        type="text"
+                        id="caminhao"
+                        placeholder="Ex: Caminhão 01"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="quilometragem">
+                        Quilometragem Atual (km)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="quilometragem"
+                        placeholder="Ex: 8500"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    class="botao"
+                    type="submit"
+                >
+                    Cadastrar Caminhão
+                </button>
+
+
+            </form>
+
+        </section>
+
+
+
+
+        <section>
+
+            <h2 class="titulo-frota">
+                🚛 Caminhões Cadastrados
+            </h2>
+
+
+            <div id="listaCaminhoes">
+
+                <p class="aviso">
+                    Nenhum caminhão cadastrado.
+                </p>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+
+    <footer>
+
+        Gestão de Frota © 2026
+
+    </footer>
+
+
+
+    <script>
+
+
+
+        class Caminhao {
+
+
+            constructor(nome, quilometragem) {
+
+                this.nome = nome;
+
+                this.quilometragem = quilometragem;
+
+            }
+
+
+            verificarManutencao() {
+
+
+                if (this.quilometragem >= 10000) {
+
+                    return "URGENTE";
+
+                } else {
+
+                    return "EM DIA";
+
+                }
+
+            }
+
+        }
+
+
+
+        const frota = [];
+
+
+
+        const formulario =
+            document.getElementById("formFrota");
+
+
+
+        formulario.addEventListener(
+            "submit",
+            function(event) {
+
+
+
+                event.preventDefault();
+
+
+
+
+                const nome =
+                    document.getElementById(
+                        "caminhao"
+                    ).value;
+
+
+                const quilometragem =
+                    Number(
+                        document.getElementById(
+                            "quilometragem"
+                        ).value
+                    );
+
+
+
+
+                const novoCaminhao =
+                    new Caminhao(
+                        nome,
+                        quilometragem
+                    );
+
+
+
+                frota.push(novoCaminhao);
+
+
+
+
+                mostrarCaminhoes();
+
+
+
+
+                formulario.reset();
+
+            }
+        );
+
+
+
+        function mostrarCaminhoes() {
+
+
+            const lista =
+                document.getElementById(
+                    "listaCaminhoes"
+                );
+
+
+
+            lista.innerHTML = "";
+
+
+
+            frota.forEach(
+                function(caminhao, index) {
+
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.classList.add("card");
+
+
+
+
+                    const status =
+                        caminhao.verificarManutencao();
+
+
+
+
+                    let classeStatus;
+
+
+                    if (status === "URGENTE") {
+
+                        classeStatus = "urgente";
+
+                    } else {
+
+                        classeStatus = "em-dia";
+
+                    }
+
+
+
+                    card.innerHTML = `
+
+                        <h3>
+                            🚛 ${caminhao.nome}
+                        </h3>
+
+
+                        <p>
+                            <strong>
+                                Quilometragem:
+                            </strong>
+
+                            ${caminhao.quilometragem.toLocaleString(
+                                "pt-BR"
+                            )} km
+
+                        </p>
+
+
+                        <p>
+                            <strong>
+                                Limite para manutenção:
+                            </strong>
+
+                            10.000 km
+
+                        </p>
+
+
+                        <div
+                            class="status ${classeStatus}"
+                        >
+
+                            Status da Manutenção:
+                            ${status}
+
+                        </div>
+
+                    `;
+
+
+
+
+                    lista.appendChild(card);
+
+                }
+            );
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>
